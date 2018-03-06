@@ -1,12 +1,13 @@
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
 public class PasswordGenerator {
 	// Path to dictionary of common english words
-	public static final String DICTIONARY_PATH = "google-10000-english/google-10000-english-usa-no-swears-medium.txt";
+	public static final String DICTIONARY_PATH = "/resources/google-10000-english/google-10000-english-usa-no-swears-medium.txt";
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		int passLength;
@@ -17,7 +18,8 @@ public class PasswordGenerator {
 			passLength = Integer.parseInt(args[0]);
 		}
 		
-		ArrayList<String> words = readWords(new File(DICTIONARY_PATH));
+		ArrayList<String> words = readWords(new InputStreamReader(
+				PasswordGenerator.class.getResourceAsStream(DICTIONARY_PATH)));
 		String passElements = buildPass(words, passLength);
 		String pass =  passElements.replace(" ", "");
 		
@@ -39,7 +41,7 @@ public class PasswordGenerator {
 		return pass;
 	}
 	
-	public static ArrayList<String> readWords(File f) throws FileNotFoundException {
+	public static ArrayList<String> readWords(InputStreamReader f) throws FileNotFoundException {
 		Scanner input = new Scanner(f);
 		
 		ArrayList<String> words = new ArrayList<String>();
